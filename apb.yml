@@ -7,6 +7,7 @@ metadata:
   displayName: Hello World (APB)
   longDescription: A sample APB which deploys a containerized Hello World web application
   dependencies: ['docker.io/ansibleplaybookbundle/hello-world:latest']
+  providerDisplayName: "Red Hat, Inc."
 plans:
   - name: default
     description: A sample APB which deploys Hello World
