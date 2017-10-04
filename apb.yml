@@ -1,6 +1,5 @@
 version: 1.0
 name: hello-world-apb
-image: ansibleplaybookbundle/hello-world-apb
 description: deploys hello-world web application
 bindable: False
 async: optional
