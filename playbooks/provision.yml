@@ -3,8 +3,7 @@
   gather_facts: false
   connection: local
   roles:
-  - role: ansible.kubernetes-modules
-    install_python_requirements: no
   - role: hello-world-apb
   vars:
+    state: present
     apb_action: provision

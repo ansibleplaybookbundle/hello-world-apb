@@ -6,9 +6,6 @@
 # to OpenShift.
 #############################################################################
 
-- name: load variables for {{ apb_action }}
-  include_vars:
-    file: '{{ apb_action }}.yml'
 
 #############################################################################
 # An OpenShift Origin deployment configuration provides a replication
