@@ -6,6 +6,9 @@
 # to OpenShift.
 #############################################################################
 
+- name: load variables for {{ apb_action }}
+  include_vars:
+    file: '{{ apb_action }}.yml'
 
 #############################################################################
 # An OpenShift Origin deployment configuration provides a replication
@@ -13,27 +16,10 @@
 # one deployment of an image to a new one.
 # https://docs.openshift.org/latest/architecture/core_concepts/deployments.html#deployments-and-deployment-configurations
 #############################################################################
-- name: create deployment config
-  openshift_v1_deployment_config:
-    name: hello-world
-    namespace: '{{ namespace }}'
-    labels:
-      app: hello-world
-      service: hello-world
-    replicas: 1
-    selector:
-      app: hello-world
-      service: hello-world
-    spec_template_metadata_labels:
-      app: hello-world
-      service: hello-world
-    containers:
-    - env:
-      image: docker.io/ansibleplaybookbundle/hello-world:latest
-      name: hello-world
-      ports:
-      - container_port: 8080
-        protocol: TCP
+- name: deployment config
+  openshift_raw:
+    state: '{{ state }}'
+    definition: "{{ lookup('template', 'deployment_config.yml') | from_yaml }}"
 
 
 #############################################################################
@@ -41,20 +27,10 @@
 # set of replicated pods in order to proxy the connections it receives to them.
 # https://docs.openshift.org/latest/architecture/core_concepts/pods_and_services.html#services
 #############################################################################
-- name: create hello-world service
-  k8s_v1_service:
-    name: hello-world
-    namespace: '{{ namespace }}'
-    labels:
-      app: hello-world
-      service: hello-world
-    selector:
-      app: hello-world
-      service: hello-world
-    ports:
-      - name: web
-        port: 8080
-        target_port: 8080
+- name: hello-world service
+  k8s_raw:
+    state: '{{ state }}'
+    definition: "{{ lookup('template', 'service.yml') | from_yaml }}"
 
 
 #############################################################################
@@ -64,11 +40,7 @@
 # https://docs.openshift.org/latest/architecture/core_concepts/routes.html
 #############################################################################
 - name: create hello-world route
-  openshift_v1_route:
-    name: hello-world
-    namespace: '{{ namespace }}'
-    spec_port_target_port: web
-    labels:
-      app: hello-world
-      service: hello-world
-    to_name: hello-world
+  openshift_raw:
+    state: '{{ state }}'
+    definition: "{{ lookup('template', 'route.yml') | from_yaml }}"
+

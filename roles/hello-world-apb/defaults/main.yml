@@ -1,0 +1,4 @@
+---
+app_name: hello-world
+app_image: docker.io/ansibleplaybookbundle/hello-world:latest
+namespace: "{{ lookup('env','NAMESPACE') | default('hello-world', true) }}"

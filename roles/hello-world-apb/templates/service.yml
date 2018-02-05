@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ app_name }}
+    service: {{ app_name }}
+  name: {{ app_name }}
+  namespace: {{ namespace }}
+spec:
+  ports:
+  - name: web
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: {{ app_name }}
+    service: {{ app_name }}

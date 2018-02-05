@@ -1,0 +1,27 @@
+---
+# Notice that the prefix was removed from apps.openshift.io/v1
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: {{ app_name }}
+    service: {{ app_name }}
+  name: {{ app_name }}
+  namespace: {{ namespace }}
+spec:
+  replicas: 1
+  selector:
+    app: {{ app_name }}
+    service: {{ app_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ app_name }}
+        service: {{ app_name }}
+    spec:
+      containers:
+      - image: {{ app_image }}
+        name: {{ app_name }}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
