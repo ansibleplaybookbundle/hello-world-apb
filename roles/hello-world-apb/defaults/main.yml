@@ -1,4 +1,4 @@
 ---
-app_name: hello-world
+app_name: "hello-world-{{ 99 | random(seed=apb_id) | to_uuid }}"
 app_image: docker.io/ansibleplaybookbundle/hello-world:latest
 namespace: "{{ lookup('env','NAMESPACE') | default('hello-world', true) }}"
