@@ -6,6 +6,8 @@
 # to OpenShift.
 #############################################################################
 
+- debug:
+    msg: "App name is {{ app_name }}"
 
 #############################################################################
 # An OpenShift Origin deployment configuration provides a replication
@@ -13,7 +15,7 @@
 # one deployment of an image to a new one.
 # https://docs.openshift.org/latest/architecture/core_concepts/deployments.html#deployments-and-deployment-configurations
 #############################################################################
-- name: deployment config
+- name: "deployment config state={{ state }}"
   openshift_raw:
     state: '{{ state }}'
     definition: "{{ lookup('template', 'deployment_config.yml') | from_yaml }}"
@@ -24,7 +26,7 @@
 # set of replicated pods in order to proxy the connections it receives to them.
 # https://docs.openshift.org/latest/architecture/core_concepts/pods_and_services.html#services
 #############################################################################
-- name: hello-world service
+- name: "service state={{ state }}"
   k8s_raw:
     state: '{{ state }}'
     definition: "{{ lookup('template', 'service.yml') | from_yaml }}"
@@ -36,7 +38,7 @@
 # selector, and an optional security configuration.
 # https://docs.openshift.org/latest/architecture/core_concepts/routes.html
 #############################################################################
-- name: create hello-world route
+- name: "route state={{ state }}"
   openshift_raw:
     state: '{{ state }}'
     definition: "{{ lookup('template', 'route.yml') | from_yaml }}"

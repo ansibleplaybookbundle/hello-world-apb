@@ -5,6 +5,7 @@ metadata:
   labels:
     app: {{ app_name }}
     service: {{ app_name }}
+    apb_id: '{{ apb_id }}'
   name: {{ app_name }}
   namespace: {{ namespace }}
 spec:
