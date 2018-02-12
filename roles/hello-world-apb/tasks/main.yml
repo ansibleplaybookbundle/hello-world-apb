@@ -43,3 +43,5 @@
     state: '{{ state }}'
     definition: "{{ lookup('template', 'route.yml') | from_yaml }}"
 
+
+- include_tasks: "verify_{{ apb_action }}.yml"

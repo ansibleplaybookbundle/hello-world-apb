@@ -5,5 +5,4 @@
   roles:
   - role: hello-world-apb
   vars:
-    state: absent
     apb_action: deprovision
