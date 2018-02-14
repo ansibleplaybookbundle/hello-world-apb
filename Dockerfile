@@ -1,4 +1,4 @@
-FROM docker.io/djzager/apb-base:canary
+FROM ansibleplaybookbundle/apb-base:canary
 
 LABEL "com.redhat.apb.spec"=\
 "LS0tCnZlcnNpb246IDEuMApuYW1lOiBoZWxsby13b3JsZC1hcGIKZGVzY3JpcHRpb246IGRlcGxv\
