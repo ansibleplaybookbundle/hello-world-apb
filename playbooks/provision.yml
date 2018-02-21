@@ -3,6 +3,6 @@
   gather_facts: false
   connection: local
   roles:
-  - role: hello-world-apb
+  - role: apb
   vars:
     apb_action: provision

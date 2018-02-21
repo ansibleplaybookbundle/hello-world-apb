@@ -19,7 +19,13 @@
   openshift_raw:
     state: '{{ state }}'
     definition: "{{ lookup('template', 'deployment_config.yml') | from_yaml }}"
+  when: cluster == "openshift"
 
+- name: "deployment state={{ state }}"
+  k8s_raw:
+    state: '{{ state }}'
+    definition: "{{ lookup('template', 'deployment.yml') | from_yaml }}"
+  when: cluster == "kubernetes"
 
 #############################################################################
 # A Kubernetes service serves as an internal load balancer.  It identifies a
@@ -42,6 +48,7 @@
   openshift_raw:
     state: '{{ state }}'
     definition: "{{ lookup('template', 'route.yml') | from_yaml }}"
+  when: cluster == "openshift"
 
 
 - include_tasks: "verify_{{ apb_action }}.yml"

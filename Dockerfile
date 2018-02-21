@@ -15,7 +15,7 @@ YXBwbGljYXRpb24gZGlzcGxheWluZyBIZWxsbyBXb3JsZAogICAgICBjb3N0OiAkMC4wMAogICAg\
 cGFyYW1ldGVyczogW10K"
 
 ADD playbooks /opt/apb/actions
-ADD roles /opt/ansible/roles
+ADD . /opt/ansible/roles/apb
 RUN chmod -R g=u /opt/{ansible,apb}
 
 USER apb

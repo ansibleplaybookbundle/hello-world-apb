@@ -9,6 +9,8 @@ state_map:
   deprovision: absent
 state: "{{ state_map[apb_action] }}"
 
+cluster: kubernetes
+
 app: hello-world
 app_name: "{{ app }}-{{ _apb_service_instance_id }}"
 app_image: docker.io/ansibleplaybookbundle/hello-world:latest
