@@ -16,7 +16,7 @@ script:
   - export apb_name='hello-world-apb'
 
   # Download test shim.
-  - wget -O ${PWD}/apb-test.sh https://raw.githubusercontent.com/djzager/apb-test-shim/ansible-galaxy/apb-test.sh
+  - wget -O ${PWD}/apb-test.sh https://raw.githubusercontent.com/ansibleplaybookbundle/apb-test-shim/master/apb-test.sh
   - chmod +x ${PWD}/apb-test.sh
 
   # Run tests.
