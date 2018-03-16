@@ -1,0 +1,12 @@
+---
+
+# Variables to hold lookup functions
+deployment_lookup: "{{ lookup('k8s', kind='Deployment', namespace=namespace, resource_name=app_name) }}"
+deployment_config_lookup: "{{ lookup('openshift', kind='DeploymentConfig', namespace=namespace, resource_name=app_name) }}"
+service_lookup: "{{ lookup('openshift', kind='Service', namespace=namespace, resource_name=app_name) }}"
+route_lookup: "{{ lookup('openshift', kind='Route', namespace=namespace, resource_name=app_name) }}"
+
+# Variables to hold queries
+available_status_query: "status.conditions[?type == 'Available'].status"
+deployment_query: "{{ deployment_lookup | json_query(available_status_query) | first }}"
+deployment_config_query: "{{ deployment_config_lookup | json_query(available_status_query) | first }}"

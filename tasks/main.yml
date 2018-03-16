@@ -6,6 +6,10 @@
 # to OpenShift.
 #############################################################################
 
+- name: "deployment state={{ state }}"
+  asb_last_operation:
+    description: "0%: Starting"
+
 - debug:
     msg: "App name is {{ app_name }}"
 
@@ -37,7 +41,6 @@
     state: '{{ state }}'
     definition: "{{ lookup('template', 'service.yml') | from_yaml }}"
 
-
 #############################################################################
 # An OpenShift Origin route exposes a service at a host name, so that external
 # clients can reach it by name. Each route consists of a name, a service
@@ -50,5 +53,12 @@
     definition: "{{ lookup('template', 'route.yml') | from_yaml }}"
   when: cluster == "openshift"
 
+- name: "Update last operation"
+  asb_last_operation:
+    description: "50%: Cluster objects state={{ state }}"
 
 - include_tasks: "verify_{{ apb_action }}.yml"
+
+- name: "Update last operation"
+  asb_last_operation:
+    description: "100%: Done"

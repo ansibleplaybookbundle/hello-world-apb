@@ -2,7 +2,8 @@
   hosts: localhost
   gather_facts: false
   connection: local
-
+  roles:
+  - role: ansibleplaybookbundle.asb-modules
   tasks:
     - name: Provision test
       include_role:

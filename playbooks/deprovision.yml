@@ -3,6 +3,7 @@
   gather_facts: false
   connection: local
   roles:
-  - role: apb
+  - role: ansibleplaybookbundle.asb-modules
+  - role: hello-world-apb
   vars:
     apb_action: deprovision

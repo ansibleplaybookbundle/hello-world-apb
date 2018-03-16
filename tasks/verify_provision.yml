@@ -1,53 +1,30 @@
 ---
 
 - name: "Verify {{ app_name }} objects exist"
-  command: "oc get {{ item }} -n {{ namespace }} {{ app_name }}"
-  register: object
-  retries: 10
-  delay: 5
-  until: object.rc == 0
-  failed_when: object.rc != 0
-  with_items:
-    - DeploymentConfig
-    - Service
-    - Route
-  when: cluster == "openshift"
-
-- name: "Verify {{ app_name }} objects exist"
-  command: "kubectl get {{ item }} -n {{ namespace }} {{ app_name }}"
-  register: object
-  retries: 10
-  delay: 5
-  until: object.rc == 0
-  failed_when: object.rc != 0
-  with_items:
-    - Deployment
-    - Service
-  when: cluster == "kubernetes"
-
-- name: "Wait for deployment config to be available"
-  command: >-
-    oc get deploymentconfig -n {{ namespace }} {{ app_name }}
-    -o jsonpath='{.status.conditions[?(.type == "Available")].status}'
-  register: dc
-  retries: 10
-  delay: 5
-  until: dc.stdout == "True"
-  when: cluster == "openshift"
-
-- name: "Wait for deployment to be available"
-  command: >-
-    kubectl get deployment -n {{ namespace }} {{ app_name }}
-    -o jsonpath='{.status.conditions[?(.type == "Available")].status}'
-  register: object
-  retries: 10
-  delay: 5
-  until: object.stdout == "True"
-  when: cluster == "kubernetes"
-
-- name: Get route
   set_fact:
-    route: "{{ lookup('openshift', kind='Route', namespace=namespace, resource_name=app_name) }}"
+    deployment: "{{ deployment_lookup }}"
+    deployment_config: "{{ deployment_config_lookup }}"
+    service: "{{ service_lookup }}"
+    route: "{{ route_lookup }}"
+  retries: 10
+  delay: 5
+  until:
+    - deployment_lookup or deployment_config_lookup
+    - service_lookup
+    - route_lookup
+
+- name: "Wait for deployment to become available"
+  debug:
+    msg: "Deployment available status: {{ deployment_query }}"
+  until:
+    - deployment_query
+  when: cluster == "kubernetes"
+
+- name: "Wait for deployment config to become available"
+  debug:
+    msg: "DeploymentConfig available status: {{ deployment_config_query }}"
+  until:
+    - deployment_config_query
   when: cluster == "openshift"
 
 - name: "Verify route is accessible"
