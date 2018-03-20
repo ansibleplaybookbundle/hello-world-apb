@@ -7,12 +7,12 @@
   tasks:
     - name: Provision test
       include_role:
-        name: apb
+        name: hello-world-apb
       vars:
         apb_action: provision
 
     - name: Deprovision test
       include_role:
-        name: apb
+        name: hello-world-apb
       vars:
         apb_action: deprovision

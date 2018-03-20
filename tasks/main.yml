@@ -6,7 +6,7 @@
 # to OpenShift.
 #############################################################################
 
-- name: "deployment state={{ state }}"
+- name: "Update last operation"
   asb_last_operation:
     description: "0%: Starting"
 
