@@ -1,6 +1,6 @@
 ---
 
-- name: "Verify {{ app_name }} objects removed"
+- name: "Verify {{ name }} objects removed"
   set_fact:
     deployment: "{{ deployment_lookup }}"
     deployment_config: "{{ deployment_config_lookup }}"

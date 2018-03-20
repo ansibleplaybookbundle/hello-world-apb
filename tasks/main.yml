@@ -10,9 +10,6 @@
   asb_last_operation:
     description: "0%: Starting"
 
-- debug:
-    msg: "App name is {{ app_name }}"
-
 #############################################################################
 # An OpenShift Origin deployment configuration provides a replication
 # controller, spins up pods, and also provides the ability to transition from

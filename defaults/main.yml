@@ -1,4 +1,6 @@
 ---
+apb_name: hello-world
+
 # Defaults for values we could expect from a broker
 _apb_plan_id: default
 _apb_service_class_id: 0
@@ -11,7 +13,6 @@ state: "{{ state_map[apb_action] }}"
 
 cluster: kubernetes
 
-app: hello-world
-app_name: "{{ app }}-{{ _apb_service_instance_id }}"
-app_image: docker.io/ansibleplaybookbundle/hello-world:latest
+name: "{{ apb_name }}"
 namespace: "{{ lookup('env','NAMESPACE') | default('hello-world', true) }}"
+image: docker.io/ansibleplaybookbundle/hello-world:latest
