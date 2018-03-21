@@ -9,9 +9,10 @@
   retries: 10
   delay: 5
   until:
-    - deployment_lookup or deployment_config_lookup
+    - deployment_lookup or cluster == "openshift"
+    - deployment_config_lookup or cluster == "kubernetes"
     - service_lookup
-    - route_lookup
+    - route_lookup or cluster == "kubernetes"
 
 - name: "Wait for deployment to become available"
   debug:

@@ -9,6 +9,7 @@
   retries: 10
   delay: 5
   until:
-    - not deployment_lookup and not deployment_config_lookup
+    - not deployment_lookup
+    - not deployment_config_lookup
     - not service_lookup
     - not route_lookup
