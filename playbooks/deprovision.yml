@@ -3,7 +3,7 @@
   gather_facts: false
   connection: local
   roles:
-  - role: ansible.kubernetes-modules
-    install_python_requirements: no
-  - role: deprovision-hello-world-apb
-    playbook_debug: false
+  - role: ansibleplaybookbundle.asb-modules
+  - role: hello-world-apb
+  vars:
+    apb_action: deprovision
