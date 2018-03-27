@@ -19,11 +19,4 @@ plans:
       longDescription:
         This plan deploys a Python web application displaying Hello World
       cost: $0.00
-    parameters:
-      - name: name
-        default: hello-world
-        type: string
-        maxlength: 63
-        pattern: "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
-        required: "True"
-        updatable: "False"
+    parameters: []
