@@ -17,6 +17,8 @@
 - name: "Wait for deployment to become available"
   debug:
     msg: "Deployment available status: {{ deployment_query }}"
+  retries: 12
+  delay: 10
   until:
     - deployment_query
   when: cluster == "kubernetes"
@@ -24,16 +26,8 @@
 - name: "Wait for deployment config to become available"
   debug:
     msg: "DeploymentConfig available status: {{ deployment_config_query }}"
+  retries: 12
+  delay: 10
   until:
     - deployment_config_query
-  when: cluster == "openshift"
-
-- name: "Verify route is accessible"
-  uri:
-    url: "http://{{ route.spec.host }}"
-    return_content: yes
-  retries: 10
-  delay: 5
-  register: webpage
-  until: webpage.status == 200
   when: cluster == "openshift"

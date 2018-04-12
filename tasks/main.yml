@@ -9,6 +9,7 @@
 - name: "Update last operation"
   asb_last_operation:
     description: "0%: Starting"
+  when: in_cluster
 
 #############################################################################
 # An OpenShift Origin deployment configuration provides a replication
@@ -53,9 +54,11 @@
 - name: "Update last operation"
   asb_last_operation:
     description: "50%: Cluster objects state={{ state }}"
+  when: in_cluster
 
 - include_tasks: "verify_{{ apb_action }}.yml"
 
 - name: "Update last operation"
   asb_last_operation:
     description: "100%: Done"
+  when: in_cluster
