@@ -10,6 +10,11 @@ env:
   - OPENSHIFT_VERSION=v3.9
   - KUBERNETES_VERSION=latest
   - KUBERNETES_VERSION=v1.9.0
+# Allow failures on oc latest
+# TODO: re-enable latest when it isn't busted
+matrix:
+  allow_failures:
+    - env: OPENSHIFT_VERSION=latest
 
 script:
   # Configure test values
