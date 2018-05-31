@@ -1,6 +1,6 @@
 ---
 
-- name: "Verify {{ name }} objects exist"
+- name: "Verify {{ app_name }} objects exist"
   set_fact:
     deployment: "{{ deployment_lookup }}"
     deployment_config: "{{ deployment_config_lookup }}"

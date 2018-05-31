@@ -1,3 +1,5 @@
+---
+
 #############################################################################
 # Provision hello-world
 # This role executes much of the needed functionality to provision an
@@ -11,45 +13,22 @@
     description: "0%: Starting"
   when: in_cluster
 
-#############################################################################
-# An OpenShift Origin deployment configuration provides a replication
-# controller, spins up pods, and also provides the ability to transition from
-# one deployment of an image to a new one.
-# https://docs.openshift.org/latest/architecture/core_concepts/deployments.html#deployments-and-deployment-configurations
-#############################################################################
-- name: "deployment config state={{ state }}"
-  openshift_raw:
-    state: '{{ state }}'
-    definition: "{{ lookup('template', 'deployment_config.yml') | from_yaml }}"
-  when: cluster == "openshift"
+# These can always be overridden at the command line
+# http://docs.ansible.com/ansible/devel/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
+- name: 'Set facts'
+  set_fact:
+    cluster: '{{ "openshift" if "openshift" in lookup("k8s", cluster_info="version") else "kubernetes" }}'
 
-- name: "deployment state={{ state }}"
-  k8s_raw:
+- name: 'Set broker objects state={{ state }}'
+  k8s:
     state: '{{ state }}'
-    definition: "{{ lookup('template', 'deployment.yml') | from_yaml }}"
-  when: cluster == "kubernetes"
-
-#############################################################################
-# A Kubernetes service serves as an internal load balancer.  It identifies a
-# set of replicated pods in order to proxy the connections it receives to them.
-# https://docs.openshift.org/latest/architecture/core_concepts/pods_and_services.html#services
-#############################################################################
-- name: "service state={{ state }}"
-  k8s_raw:
-    state: '{{ state }}'
-    definition: "{{ lookup('template', 'service.yml') | from_yaml }}"
-
-#############################################################################
-# An OpenShift Origin route exposes a service at a host name, so that external
-# clients can reach it by name. Each route consists of a name, a service
-# selector, and an optional security configuration.
-# https://docs.openshift.org/latest/architecture/core_concepts/routes.html
-#############################################################################
-- name: "route state={{ state }}"
-  openshift_raw:
-    state: '{{ state }}'
-    definition: "{{ lookup('template', 'route.yml') | from_yaml }}"
-  when: cluster == "openshift"
+    definition: "{{ lookup('template', item.name) | from_yaml }}"
+  when: item.apply | default(True)
+  loop:
+    - name: deployment.yml
+    - name: service.yml
+    - name: route.yml
+      apply: "{{ True if cluster == 'openshift' else False }}"
 
 - name: "Update last operation"
   asb_last_operation:
