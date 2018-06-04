@@ -1,15 +1,26 @@
 ---
 
-# Variables to hold lookup functions
-deployment_lookup: "{{ lookup('k8s', kind='Deployment', namespace=namespace, resource_name=name) }}"
-deployment_config_lookup: "{{ lookup('openshift', kind='DeploymentConfig', namespace=namespace, resource_name=name) }}"
-service_lookup: "{{ lookup('openshift', kind='Service', namespace=namespace, resource_name=name) }}"
-route_lookup: "{{ lookup('openshift', kind='Route', namespace=namespace, resource_name=name) }}"
+deployment_lookup: "{{
+  lookup(
+    'k8s',
+    api_version='apps.openshift.io/v1',
+    kind='DeploymentConfig',
+    namespace=namespace,
+    resource_name=app_name
+  ) if cluster == 'openshift' else lookup(
+    'k8s',
+    api_version='apps/v1',
+    kind='Deployment',
+    namespace=namespace,
+    resource_name=app_name
+  )
+}}"
 
 # Variables to hold queries
 available_status_query: "status.conditions[?type == 'Available'].status"
-deployment_query: "{{ deployment_lookup | json_query(available_status_query) | first }}"
-deployment_config_query: "{{ deployment_config_lookup | json_query(available_status_query) | first }}"
+deployment_query: "{{
+  deployment_lookup | json_query(available_status_query) | first | bool
+}}"
 
 # Whether we are in a cluster or not.
 pod_name: "{{ lookup('env', 'POD_NAME') }}"
