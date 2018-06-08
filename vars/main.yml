@@ -1,5 +1,10 @@
 ---
 
+state_map:
+  provision: present
+  deprovision: absent
+state: "{{ state_map[apb_action] }}"
+
 deployment_lookup: "{{
   lookup(
     'k8s',
